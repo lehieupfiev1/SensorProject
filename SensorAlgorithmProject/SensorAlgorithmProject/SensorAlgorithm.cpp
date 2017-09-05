@@ -6,59 +6,58 @@ const int CoordinateMaxValue = 1000;
 const int MaxPointOfSetS = 50; // Max Point of S
 const int MaxSetOfD = 10;// Max Set of D
 const int MaxPointOfSetD = 50;// Max Point of every set D
-const float MAX_DISTANCE = 10000000000;
+const float MAX_DISTANCE = 1000000000000;
 
 float Distance[MaxPointOfSetS+MaxPointOfSetD*MaxSetOfD+1][MaxPointOfSetS+MaxPointOfSetD*MaxSetOfD+1];
 int P[MaxPointOfSetS+MaxPointOfSetD*MaxSetOfD+1][2];
 int S[MaxPointOfSetS][2];
 int D[MaxSetOfD][MaxPointOfSetD][2];
 int M[MaxSetOfD]; // Number Point of every set D
-int ListMST[MaxPointOfSetS+MaxPointOfSetD];// List Node Minimum Spanning Tree
+
+int List[MaxPointOfSetS+MaxPointOfSetD];
+
+//Function
+void printMST(int V,int *list);
+int Extract_Min(int V);
+float Prime(int *List, int V, int start);
+
+
 
 int K;// Number Set in D
 int N;// Number points of S
 int TP;// Total point 
-
-struct Set {
-	int id;
-	int start;
-	int end;
-};
-Set SetS,SetD[MaxPointOfSetD];
-
-struct Node{
+struct Node {
 	int idSet;
 	int stNode;
 	int desNode;
 	float distance;
 };
-
-Node HeapNode[1000000];
-
+Node HeapNode[10000];
+int sizeHeap;
 void swapNode(int x,int y) {
-	int temp;
-	float temp1;
-	//swape isSet
+	int temp ;
+	float temp2;
+	// swap id Set
 	temp = HeapNode[x].idSet;
 	HeapNode[x].idSet = HeapNode[y].idSet;
 	HeapNode[y].idSet = temp;
-	//Swap start node
+	// swap start Node
 	temp = HeapNode[x].stNode;
 	HeapNode[x].stNode = HeapNode[y].stNode;
 	HeapNode[y].stNode = temp;
-	//Swap end node
+	// swap destination Node
 	temp = HeapNode[x].desNode;
 	HeapNode[x].desNode = HeapNode[y].desNode;
 	HeapNode[y].desNode = temp;
-	//Swap distance node
-	temp1 = HeapNode[x].distance;
+
+	temp2 = HeapNode[x].distance;
 	HeapNode[x].distance = HeapNode[y].distance;
-	HeapNode[y].distance = temp1;
+	HeapNode[y].distance = temp2;
 }
 //Dung heap
-int sizeHeap;
+
 int findMin(int x, int y) {
-	if (HeapNode[x].distance < HeapNode[y].distance ) return x;
+	if (HeapNode[x].distance  < HeapNode[y].distance ) return x;
 	return y;
 }
 
@@ -101,113 +100,27 @@ void push(Node *node) {
 	}
 }
 Node *pop() {
-	Node *result = new Node();
-	if (sizeHeap >0) {
-		result->idSet= HeapNode[1].idSet;
-		result->stNode = HeapNode[1].stNode;
-		result->desNode = HeapNode[1].desNode;
-		result->distance = HeapNode[1].distance;
+	Node *node = new Node();
 
+	if (sizeHeap >0) {
+		node->idSet= HeapNode[1].idSet;
+		node->stNode= HeapNode[1].stNode;
+		node->desNode= HeapNode[1].desNode;
+		node->distance= HeapNode[1].distance;
 		swapNode(1,sizeHeap);
 		sizeHeap--;
 		sink(1);
 	}
-	return result;
+	return node;
 };
-//-------------------------/////////////////////////
+//////----------------------------------------------------------///
 
-
-void findMinConnectFromSetToSet(Set *setA, Set *setB) {
-	int i,j;
-	int startA = setA->start;
-	int endA = setA->end;
-	int startB = setB->start;
-	int endB = setB->end;
-
-	Node *n = new Node();
-	n->idSet = setB->id;
-	n->distance = MAX_DISTANCE;
-
-	for (i= startA; i<=endA; i++) {
-		for (j= startB; j<=endB; j++) {
-			if (n->distance > Distance[i][j]) {
-				n->distance = Distance[i][j];
-				n->stNode = i;
-				n->desNode = j;
-			}
-		}
-	}
-	//Add node to Heap;
-	push(n);
-
-}
-
-void findMinConnectFromNodeToSet( int node, Set *set) {
-	int i,j;
-	int start = set->start;
-	int end = set->end;
-
-	Node *n = new Node();
-	n->idSet = set->id;
-	n->distance = MAX_DISTANCE;
-    for (i = start;i<=end;i++) {
-		if (n->distance > Distance[node][i]) {
-			n->distance = Distance[node][i];
-			n->stNode = node;
-			n->desNode = i;
-		}
-	}
-	//Add node to Heap
-	push(n);
-
-}
-
-void run() {
-	int i,j;
-	bool visisted[MaxPointOfSetD];
-	sizeHeap =0;
-	// Add min to Heap
-
-	for (i=0;i<K;i++) {
-		findMinConnectFromSetToSet(&SetS,&SetD[i]);
-	}
-	//resetArray
-	for (i=0;i<K;i++) {
-		visisted[i] = false;
-	}
-	for(i =0;i<N;i++) {
-		ListMST[i] = i;
-	}
-
-	bool finish = true;
-	int count = 0;
-	while (finish) {
-     //get header of Heap
-		Node *header = pop();
-		while (visisted[header->idSet]) {
-			header = pop();
-		}
-
-		//
-		visisted[header->idSet] = true;
-		int point = header->desNode;
-		ListMST[N+count] = point;
-		count++;
-		delete(header);
-		if (count == K) finish = false;
-
-	 // find Node from header to other Node
-		for (i = 0;i<K;i++) {
-			if (!visisted[i]) {
-				findMinConnectFromNodeToSet(point,&SetD[i]);
-			}
-		}
-
-	}
-
-
-}
-
+struct Set{
+	int id;
+	int start;
+	int end;
+};
+Set SetS, SetD[MaxSetOfD];
 void readData() {
 	int testcase;
 	int i,j;
@@ -224,6 +137,7 @@ void readData() {
 	SetS.id = -1;
 	SetS.start = 0;
 	SetS.end = N-1;
+
 	//Read K set D
 	for (i =0;i<K;i++) {
 		scanf("%d", &M[i]);
@@ -237,9 +151,111 @@ void readData() {
 		    P[pi][1] = D[i][j][1];
 		    pi++;
 		}
+
 		scanf("\n");
 	}
 }
+
+void findMinConnectFromSetToSet(Set *setA,Set *setB) {
+	int i,j;
+	int startA = setA->start;
+	int endA = setA->end;
+	int startB = setB->start;
+	int endB = setB->end;
+
+	Node *n = new Node();
+	n->distance = MAX_DISTANCE;
+
+	for (i=startA;i<=endA;i++) {
+		for (j=startB;j<=endB;j++) {
+			if (n->distance > Distance[i][j] ) {
+				n->distance = Distance[i][j];
+				n->idSet = setB->id;
+				n->stNode = i;
+				n->desNode = j;
+			}
+		}
+	}
+	//Add node to List Heap
+	push(n);
+}
+ void findMinConnectFromNodeToSet(int node, Set *set) {
+	 int i,j;
+	 int start = set->start;
+	 int end = set->end;
+
+	 Node *n = new Node();
+	 n->distance = MAX_DISTANCE;
+
+
+	 for (i = start;i<= end;i++) {
+		 if (n->distance > Distance[node][i]) {
+			 n->distance = Distance[node][i];
+			 n->idSet = set->id;
+			 n->stNode = node;
+			 n->desNode = i;
+		 }
+
+	 }
+	 //Add Node to List Heap
+	 push(n);
+ }
+
+ void run() {
+	 // Add list minimum point from Set D to Set S
+	 int i,j;
+
+	 int k;
+	 sizeHeap = 0;
+	 for (i=0;i<K;i++) {
+		 findMinConnectFromSetToSet(&SetS,&SetD[i]);
+	 }
+
+	 for (i =0;i<N;i++) {
+		 List[i] = i;
+	 }
+
+	 //reset Array
+	 bool visisted[MaxPointOfSetD];
+	 for (i =0;i<K;i++) {
+		 visisted[i] = false;
+	 }
+	 //
+
+
+	 
+	 bool findResult = true;
+	 int count =0;
+	 while (findResult) {
+       // get Min Point from Heap
+		 
+		 Node *headNode = pop();
+		 while (visisted[headNode->idSet]) {
+			 headNode = pop();
+		 }
+		 visisted[headNode->idSet] = true;
+		 int point = headNode->desNode;
+		 List[N+count] = point;
+		 delete(headNode);
+		 count++;
+		 if (count == K) findResult = false;
+
+	  // Add new point To heap find From MintPoint to set D
+		 for (i=0;i<K;i++) {
+			 if (!visisted[i]) {
+				 findMinConnectFromNodeToSet(point,&SetD[i]);
+			 }
+		 }
+	 }
+
+
+	 //Add Prime Algorithm
+	 float result = Prime(List,N+K,0);
+	 printf("Min MST = %0.2f\n",result);
+	 printMST(N+K,List);
+
+
+ }
 
 float calcuDistance(int x1, int y1,int x2,int y2) {
 	return (float)sqrt((float)(x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
@@ -263,6 +279,66 @@ void createMtrixDistance() {
 	}
 }
 
+/// Thuat toan Prime
+int parent[MaxPointOfSetS+MaxPointOfSetD];
+float key[MaxPointOfSetS+MaxPointOfSetD];
+bool visited[MaxPointOfSetS+MaxPointOfSetD];
+float MinMSTLengh; // Do dai cay khung nho nhat
+
+
+int Extract_Min(int V) {
+	float min = MAX_DISTANCE;
+	int u;
+	for (int i = 0;i<V;i++) {
+		if (!visited[i] && key[i] <min ) {
+			min = key[i];
+			u =i;
+		}
+	}
+	MinMSTLengh+= min;
+	return u;
+}
+
+float Prime(int *List, int V, int start) {
+	// Khoi tao
+	int i,j;
+	MinMSTLengh = 0;
+	for (i =0;i<V;i++) {
+		parent[i] = -1;
+		visited[i] = false;
+		key[i] = MAX_DISTANCE;
+	}
+
+	//Start search
+	key[start] = 0;
+
+	for (i =0;i<V;i++) {
+		//Tim dinh co canh nho nhat
+		int u = Extract_Min(V);
+		visited[u] = true;
+
+		//Duyet tat ca ca nut
+		for (int v = 0;v <V;v++) {
+			if (!visited[v] && Distance[List[u]][List[v]] != 0 && Distance[List[u]][List[v]] < key[v]) {
+				//Luu lai nut cha va trong so moi
+				key[v] = Distance[List[u]][List[v]];
+				parent[v] = u;
+			}
+		}
+	}
+	return MinMSTLengh;
+}
+
+void printMST(int V,int *list) {
+	for (int i = 0;i<V;i++) {
+		printf("%d-%d " ,list[i],list[parent[i]]);
+	}
+	printf("\n");
+}
+
+
+
+
 int main(void)
 {
 	int test_case;
@@ -272,11 +348,13 @@ int main(void)
 
 
 	freopen("DATA.OUT", "r", stdin);
+	freopen("DATA.IN", "w", stdout);
 	setbuf(stdout, NULL);
 	scanf("%d\n", &T);
 	for (test_case = 1; test_case <= T; ++test_case)
 	{
 		Answer = 0;
+		printf("Case #%d \n", test_case);
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		readData();
 		createMtrixDistance();
@@ -284,12 +362,13 @@ int main(void)
 
 
 
+
 	
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		// Print the answer to standard output(screen). 
-		printf("Case #%d \n", test_case);
-		for (i =0;i<N+K;i++) {
-			printf("%d ", ListMST[i]);
+
+		for (i =0 ;i<K+N;i++) {
+		  printf("%d ", List[i]);
 		}
 		printf("\n");
 	}
