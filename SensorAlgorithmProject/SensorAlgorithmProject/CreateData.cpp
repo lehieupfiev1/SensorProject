@@ -2,8 +2,8 @@
 //#include <conio.h>
 //
 //const int CoordinateMaxValue = 1000;
-//const int MaxPointOfSet = 50;
-//const int MaxSetOfD = 10;// Max Set of D
+//const int MaxPointOfSet = 10;
+//const int MaxSetOfD = 5;// Max Set of D
 //const unsigned long long Mod = ((1 << 31) - 1);
 //long long seed = 123456789;
 //long long a = 1103515245;
