@@ -2,21 +2,33 @@
 #include <conio.h>
 #include <time.h>
 #include <math.h>
-const int CoordinateMaxValue = 1000;
-const int MaxPointOfSetS = 50; // Max Point of S
-const int MaxSetOfD = 10;// Max Set of D
-const int MaxPointOfSetD = 50;// Max Point of every set D
-const float MAX_DISTANCE = 10000000000;
+const int CoordinateMaxValue = 10000;
+const int MaxPointOfSetP = 100; // Max Point of p taget 
+const int MaxSetOfD = 50;// Max Set of D
+const int MaxPointOfSetD = 100;// Max Point of every set D
+const float MAX_DISTANCE = 1000000000000;
 
-float Distance[MaxPointOfSetS+MaxPointOfSetD*MaxSetOfD+1][MaxPointOfSetS+MaxPointOfSetD*MaxSetOfD+1];
-int P[MaxPointOfSetS+MaxPointOfSetD*MaxSetOfD+1][2];
-int S[MaxPointOfSetS][2];
-int D[MaxSetOfD][MaxPointOfSetD][2];
+float Distance[MaxPointOfSetP+MaxPointOfSetD*MaxSetOfD+1][MaxPointOfSetP+MaxPointOfSetD*MaxSetOfD+1];
+float P[MaxPointOfSetP+MaxPointOfSetD*MaxSetOfD+1][2];
+float Taget[MaxPointOfSetP][2];
+float S[MaxPointOfSetP][2];
+float D[MaxSetOfD][MaxPointOfSetD][2];
 int M[MaxSetOfD]; // Number Point of every set D
 
 int K;// Number Set in D
 int N;// Number points of S
 int TP;// Total point 
+int TagetPoint;// Total point of Taget
+float Rs, Rt;
+
+ struct Sensor {
+	 float x;
+	 float y;
+ };
+ Sensor ListSensor[1000000];
+ int numberSersor;
+ void printListSensor(Sensor *listSensor, int number);
+ void CalculateSensor(int number);
 
 struct Set {
 	int id;
@@ -28,39 +40,72 @@ Set SetS,SetD[MaxPointOfSetD];
 void readData() {
 	int testcase;
 	int i,j;
+	
+	scanf("%d %d %d\n", &testcase,&TagetPoint,&K);
+	//Read P points of taget Set
+	for (i=0;i<TagetPoint;i++) {
+		scanf("%f %f", &Taget[i][0],&Taget[i][1]);
+	}
+	scanf("\n");
+
+	//Read K set D
+	for (i =0;i<K;i++) {
+		scanf("%d", &M[i]);
+		for (j = 0;j<M[i];j++) {
+			scanf("%f %f", &D[i][j][0],&D[i][j][1]);
+		}
+
+		scanf("\n");
+	}
+	//Read Rs and Rt
+	scanf("%f %f", &Rs,&Rt);
+}
+
+//Find Target-covering sensor
+void Find_Taget_Corvering_Sensor() {
+	// Vi du tim duoc tap S corvering
+	N = TagetPoint;
+	for (int i=0;i<N;i++) {
+		S[i][0] = Taget[i][0];
+		S[i][1] = Taget[i][1];
+	}
+	//  Code algorithm in here 
+
+
+
+	//---------------------------///
+
+
+	//---- Move to List  P--------/
 	int pi = 0;
-	scanf("%d %d %d\n", &testcase,&N,&K);
-	//Read N points of set S
-	for (i=0;i<N;i++) {
-		scanf("%d %d", &S[i][0],&S[i][1]);
+	int i,j;
+	//Add List S to List P
+	for (i=0 ;i<N; i++) {
 		P[pi][0] = S[i][0];
 		P[pi][1] = S[i][1];
 		pi++;
 	}
-	scanf("\n");
 	SetS.id = -1;
 	SetS.start = 0;
 	SetS.end = N-1;
-	//Read K set D
+
+	//Add List Di to List P
 	for (i =0;i<K;i++) {
-		scanf("%d", &M[i]);
 		SetD[i].id = i;
 		SetD[i].start = pi;
 		SetD[i].end = pi+M[i]-1;
 
 		for (j = 0;j<M[i];j++) {
-			scanf("%d %d", &D[i][j][0],&D[i][j][1]);
 			P[pi][0] = D[i][j][0];
 		    P[pi][1] = D[i][j][1];
 		    pi++;
 		}
-		scanf("\n");
 	}
 }
 
 // CalcularDistance between two point
-float calcuDistance(int x1, int y1,int x2,int y2) {
-	return (float)sqrt((float)(x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
+float calcuDistance(float x1, float y1,float x2,float y2) {
+	return (float)sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
 }
 
 void createMtrixDistance() {
@@ -104,7 +149,7 @@ int findMinConnectFromSetDToS(Set *setD) {
 }
 
 // Create matrix N+1 of S and representative of the setD(i)
-float Matrix[MaxPointOfSetS+1][MaxPointOfSetS+1];
+float Matrix[MaxPointOfSetP+1][MaxPointOfSetP+1];
 void createMatrix(int point) {
 	int i,j;
 	for (i=0;i<N;i++) {
@@ -124,12 +169,12 @@ struct Edge {
 	float distance;
 };
 //List Edges
-Edge ListEdge[MaxSetOfD][MaxPointOfSetS+2];// List Egde is egde result after using Krukal Algorithm with N+1 matrix
-Edge ListResult[(MaxPointOfSetS+1)*MaxSetOfD];//ListResult is egde result of this algorithm;
-Edge nEdgeList[MaxPointOfSetS*(MaxPointOfSetS+1)/2+1];
+Edge ListEdge[MaxSetOfD][MaxPointOfSetP+2];// List Egde is egde result after using Krukal Algorithm with N+1 matrix
+Edge ListResult[(MaxPointOfSetP+1)*MaxSetOfD];//ListResult is egde result of this algorithm;
+Edge nEdgeList[MaxPointOfSetP*(MaxPointOfSetP+1)/2+1];
 
 int nEdge,V;//number edge and vertices.
-int parent[MaxPointOfSetS+2];
+int parent[MaxPointOfSetP+2];
 
 
 void createListEdges(Edge *edgeList) {
@@ -325,10 +370,59 @@ void run() {
 			}
 		}
 	}
-	 printf("Min MST = %0.2f\n",Total);
-	printListResult(k1);
+
+	 CalculateSensor(k1);
+	 printf("Number Sensor = %d\n",numberSersor);
+	 printListSensor(ListSensor,numberSersor);
 }
 
+// Calculate number of sensor a segment
+ void addSensorInSegment(float x1, float y1,float x2, float y2, Sensor *listSensor) {
+	 float distance = calcuDistance(x1,y1,x2,y2);
+	 if (distance <= 2*Rt && distance > 0) {
+		 listSensor[numberSersor].x = (x1+x2)/2;
+		 listSensor[numberSersor].y = (y1+y2)/2;
+		 numberSersor++;
+	 } else {
+		 int k = (int) distance/Rt;
+		 float tempx = x2-x1;
+		 float tempy = y2-y1;
+		 float temp1 = x1*x1+y1*y1 -(x2*x2+y2*y2);
+		 float temp2 = x2*y1 - x1*y2;
+		 //He pt 2 an
+		 //  2tempx*X + 2tempy*Y + temp1 - (kRt)^2 + (distance - k*Rt)^2 = 0;
+		 //  (tempy/tempx)* X + temp2/tempx = Y;
+		 for (int i = 1;i<=k;i++) {
+			 float temp3 = (distance - i*Rt)*(distance - i*Rt) - (i*Rt)*(i*Rt);
+			 listSensor[numberSersor].x = -(2*tempy*temp2 + tempx*temp1+ tempx*temp3)/(2*tempx*tempx +2*tempy*tempy);
+			 listSensor[numberSersor].y = tempy*listSensor[numberSersor].x/tempx + temp2/tempx;
+			 numberSersor++;
+		 }
+
+	 }
+ }
+
+ int count[MaxPointOfSetP+MaxSetOfD];
+ void CalculateSensor(int number) {
+	 // Add Sensor S to ListSensor 
+	 numberSersor = N;
+	 for (int i=0; i<N ;i++ ) {
+		 ListSensor[i].x = S[i][0];
+		 ListSensor[i].y = S[i][1];
+	 }
+
+	 // Add point between a segment
+
+	 for(int i = 0;i<number;i++) {
+		 addSensorInSegment(P[ListResult[i].u][0],P[ListResult[i].u][1],P[ListResult[i].v][0],P[ListResult[i].v][1],ListSensor);
+	 }
+ }
+ void printListSensor(Sensor *listSensor, int number) {
+	for (int i = 0;i<number;i++) {
+		printf("%0.2f-%0.2f " ,listSensor[i].x,listSensor[i].y);
+	}
+	printf("\n");
+ }
 ///*-----------------------------------------------MAIN PROGAMMING-------------------------------------------*/
 int main(void)
 {
@@ -338,8 +432,8 @@ int main(void)
 	int Answer;
 
 
-	freopen("DATA.OUT", "r", stdin);
-//	freopen("DATA.OUT1", "w", stdout);
+	freopen("DATA_02.IN", "r", stdin);
+	freopen("COMPARE_DATA_02.OUT", "w", stdout);
 	setbuf(stdout, NULL);
 	scanf("%d\n", &T);
 	for (test_case = 1; test_case <= T; ++test_case)
@@ -348,9 +442,13 @@ int main(void)
 		
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		readData();
-		printf("Case #%d N= %d D =%d\n", test_case,N,K);
+		printf("Case #%d P= %d D =%d\n", test_case,TagetPoint,K);
+		//Step 1: Find target-covering sensor
+		Find_Taget_Corvering_Sensor();
 
 		createMtrixDistance();
+
+		// Step 2: 
 
         clock_t start = clock();
 		run();
