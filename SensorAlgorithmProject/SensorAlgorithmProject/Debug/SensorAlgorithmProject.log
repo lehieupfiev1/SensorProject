@@ -1,12 +1,48 @@
-﻿Build started 8/26/2017 12:45:51 AM.
+﻿Build started 10/4/2017 11:15:27 PM.
      1>Project "E:\HIEU\CAO HOC\SensorProject\SensorAlgorithmProject\SensorAlgorithmProject\SensorAlgorithmProject.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\SensorAlgorithmProject.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt AlgorithmCompare1.cpp SensorAlgorithm.cpp
+         SensorAlgorithm.cpp
+     1>e:\hieu\cao hoc\sensorproject\sensoralgorithmproject\sensoralgorithmproject\sensoralgorithm.cpp(10): warning C4305: 'initializing' : truncation from '__int64' to 'const float'
+     1>e:\hieu\cao hoc\sensorproject\sensoralgorithmproject\sensoralgorithmproject\sensoralgorithm.cpp(145): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(304) : see declaration of 'scanf'
+     1>e:\hieu\cao hoc\sensorproject\sensoralgorithmproject\sensoralgorithmproject\sensoralgorithm.cpp(146): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(304) : see declaration of 'scanf'
+     1>e:\hieu\cao hoc\sensorproject\sensoralgorithmproject\sensoralgorithmproject\sensoralgorithm.cpp(149): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(304) : see declaration of 'scanf'
+     1>e:\hieu\cao hoc\sensorproject\sensoralgorithmproject\sensoralgorithmproject\sensoralgorithm.cpp(151): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(304) : see declaration of 'scanf'
+     1>e:\hieu\cao hoc\sensorproject\sensoralgorithmproject\sensoralgorithmproject\sensoralgorithm.cpp(155): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(304) : see declaration of 'scanf'
+     1>e:\hieu\cao hoc\sensorproject\sensoralgorithmproject\sensoralgorithmproject\sensoralgorithm.cpp(157): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(304) : see declaration of 'scanf'
+     1>e:\hieu\cao hoc\sensorproject\sensoralgorithmproject\sensoralgorithmproject\sensoralgorithm.cpp(160): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(304) : see declaration of 'scanf'
+     1>e:\hieu\cao hoc\sensorproject\sensoralgorithmproject\sensoralgorithmproject\sensoralgorithm.cpp(139): warning C4101: 'testcase' : unreferenced local variable
+     1>e:\hieu\cao hoc\sensorproject\sensoralgorithmproject\sensoralgorithmproject\sensoralgorithm.cpp(254): warning C4101: 'j' : unreferenced local variable
+     1>e:\hieu\cao hoc\sensorproject\sensoralgorithmproject\sensoralgorithmproject\sensoralgorithm.cpp(279): warning C4101: 'k' : unreferenced local variable
+     1>e:\hieu\cao hoc\sensorproject\sensoralgorithmproject\sensoralgorithmproject\sensoralgorithm.cpp(277): warning C4101: 'j' : unreferenced local variable
+     1>e:\hieu\cao hoc\sensorproject\sensoralgorithmproject\sensoralgorithmproject\sensoralgorithm.cpp(350): warning C4101: 'j' : unreferenced local variable
+     1>e:\hieu\cao hoc\sensorproject\sensoralgorithmproject\sensoralgorithmproject\sensoralgorithm.cpp(393): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>e:\hieu\cao hoc\sensorproject\sensoralgorithmproject\sensoralgorithmproject\sensoralgorithm.cpp(466): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(249) : see declaration of 'freopen'
+     1>e:\hieu\cao hoc\sensorproject\sensoralgorithmproject\sensoralgorithmproject\sensoralgorithm.cpp(468): warning C4996: 'setbuf': This function or variable may be unsafe. Consider using setvbuf instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(313) : see declaration of 'setbuf'
+     1>e:\hieu\cao hoc\sensorproject\sensoralgorithmproject\sensoralgorithmproject\sensoralgorithm.cpp(461): warning C4101: 'T' : unreferenced local variable
+     1>e:\hieu\cao hoc\sensorproject\sensoralgorithmproject\sensoralgorithmproject\sensoralgorithm.cpp(461): warning C4101: 'i' : unreferenced local variable
+     1>e:\hieu\cao hoc\sensorproject\sensoralgorithmproject\sensoralgorithmproject\sensoralgorithm.cpp(461): warning C4101: 'j' : unreferenced local variable
+         AlgorithmCompare1.cpp
+         Generating Code...
        Link:
-         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\HIEU\CAO HOC\SensorProject\SensorAlgorithmProject\Debug\SensorAlgorithmProject.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\SensorAlgorithmProject.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"E:\HIEU\CAO HOC\SensorProject\SensorAlgorithmProject\Debug\SensorAlgorithmProject.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\HIEU\CAO HOC\SensorProject\SensorAlgorithmProject\Debug\SensorAlgorithmProject.lib" /MACHINE:X86 Debug\AlgorithmCompare1.obj
+         Debug\CreateData.obj
+         Debug\SensorAlgorithm.obj
+     1>AlgorithmCompare1.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
          SensorAlgorithmProject.vcxproj -> E:\HIEU\CAO HOC\SensorProject\SensorAlgorithmProject\Debug\SensorAlgorithmProject.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"E:\HIEU\CAO HOC\SensorProject\SensorAlgorithmProject\Debug\SensorAlgorithmProject.exe;#1" /manifest Debug\SensorAlgorithmProject.exe.intermediate.manifest
        FinalizeBuildStatus:
          Deleting file "Debug\SensorAlgorithmProject.unsuccessfulbuild".
          Touching "Debug\SensorAlgorithmProject.lastbuildstate".
@@ -14,4 +50,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.05
+Time Elapsed 00:00:00.62
